@@ -2,11 +2,11 @@ package com.snackstore.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.snackstore.common.Result;
+import com.snackstore.dto.UserStatusDTO;
 import com.snackstore.service.AdminService;
 import com.snackstore.vo.UserVO;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -26,8 +26,8 @@ public class AdminUserController {
     }
 
     @PutMapping("/users/{id}/status")
-    public Result<Void> updateStatus(@PathVariable Long id, @RequestBody Map<String, Integer> body) {
-        adminService.updateUserStatus(id, body.get("status"));
+    public Result<Void> updateStatus(@PathVariable Long id, @Valid @RequestBody UserStatusDTO dto) {
+        adminService.updateUserStatus(id, dto.getStatus());
         return Result.ok(null);
     }
 }

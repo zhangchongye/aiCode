@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -48,6 +49,7 @@ class AdminOrderControllerTest {
         orderMapper.insert(o);
         mockMvc.perform(post("/api/admin/orders/" + o.getId() + "/ship").header("Authorization", adminAuth))
                 .andExpect(jsonPath("$.code").value(0));
+        assertEquals(2, orderMapper.selectById(o.getId()).getStatus());
         mockMvc.perform(get("/api/admin/orders").header("Authorization", adminAuth))
                 .andExpect(jsonPath("$.data.records").isArray());
     }
