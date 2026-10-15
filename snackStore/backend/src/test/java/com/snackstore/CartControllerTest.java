@@ -84,4 +84,67 @@ class CartControllerTest {
         mockMvc.perform(get("/api/cart").header("Authorization", auth()))
                 .andExpect(jsonPath("$.data.length()").value(0));
     }
+
+    private long addItem(int quantity) throws Exception {
+        mockMvc.perform(post("/api/cart").header("Authorization", auth())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"productId\":" + productId + ",\"quantity\":" + quantity + "}"));
+        String body = mockMvc.perform(get("/api/cart").header("Authorization", auth()))
+                .andReturn().getResponse().getContentAsString();
+        return Long.parseLong(body.replaceAll(".*\"id\":(\\d+).*", "$1"));
+    }
+
+    @Test
+    void updateQuantity_success() throws Exception {
+        long itemId = addItem(1);
+        mockMvc.perform(put("/api/cart/" + itemId).header("Authorization", auth())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"quantity\":5}"))
+                .andExpect(jsonPath("$.code").value(0));
+        mockMvc.perform(get("/api/cart").header("Authorization", auth()))
+                .andExpect(jsonPath("$.data[0].quantity").value(5));
+    }
+
+    @Test
+    void updateQuantity_zero_fails() throws Exception {
+        long itemId = addItem(1);
+        mockMvc.perform(put("/api/cart/" + itemId).header("Authorization", auth())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"quantity\":0}"))
+                .andExpect(jsonPath("$.code").value(1));
+    }
+
+    @Test
+    void updateChecked_outOfRange_fails() throws Exception {
+        long itemId = addItem(1);
+        mockMvc.perform(put("/api/cart/" + itemId).header("Authorization", auth())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"checked\":2}"))
+                .andExpect(jsonPath("$.code").value(1));
+    }
+
+    @Test
+    void update_deletedProduct_fails() throws Exception {
+        long itemId = addItem(1);
+        productMapper.deleteById(productId);
+        mockMvc.perform(put("/api/cart/" + itemId).header("Authorization", auth())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"quantity\":2}"))
+                .andExpect(jsonPath("$.code").value(1))
+                .andExpect(jsonPath("$.message").value("商品不存在或已下架"));
+    }
+
+    @Test
+    void update_delete_otherUsersItem_fails() throws Exception {
+        long itemId = addItem(1);
+        String otherToken = "Bearer " + jwtUtil.generateToken(99L, "USER");
+        mockMvc.perform(put("/api/cart/" + itemId).header("Authorization", otherToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"quantity\":2}"))
+                .andExpect(jsonPath("$.code").value(1))
+                .andExpect(jsonPath("$.message").value("购物车项不存在"));
+        mockMvc.perform(delete("/api/cart/" + itemId).header("Authorization", otherToken))
+                .andExpect(jsonPath("$.code").value(1))
+                .andExpect(jsonPath("$.message").value("购物车项不存在"));
+    }
 }

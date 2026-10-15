@@ -85,6 +85,9 @@ public class CartServiceImpl implements CartService {
         CartItem item = getOwned(userId, id);
         if (dto.getQuantity() != null) {
             Product p = productMapper.selectById(item.getProductId());
+            if (p == null) {
+                throw new BusinessException("商品不存在或已下架");
+            }
             if (dto.getQuantity() > p.getStock()) {
                 throw new BusinessException("库存不足，当前库存 " + p.getStock());
             }
