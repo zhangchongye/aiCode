@@ -1,0 +1,14 @@
+<view wx:if="{{!list.length && !loading}}" class="empty">暂无分类</view>
+
+<view class="card item" wx:for="{{list}}" wx:key="_id">
+  <view class="row-between">
+    <text class="name" data-id="{{item._id}}" bindtap="onRename">{{item.name}}</text>
+    <view class="ops">
+      <text class="op" data-id="{{item._id}}" bindtap="onMoveUp">↑</text>
+      <text class="op" data-id="{{item._id}}" bindtap="onMoveDown">↓</text>
+      <text class="op del" data-id="{{item._id}}" bindtap="onDelete">删除</text>
+    </view>
+  </view>
+</view>
+
+<view class="btn-primary add" bindtap="onAdd">+ 新增分类</view>

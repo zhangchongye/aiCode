@@ -1,0 +1,18 @@
+.name {
+  font-size: 30rpx;
+}
+.ops {
+  display: flex;
+  gap: 24rpx;
+}
+.op {
+  color: #666;
+  font-size: 28rpx;
+  padding: 4rpx 12rpx;
+}
+.op.del {
+  color: #FF3B30;
+}
+.add {
+  margin: 40rpx 20rpx;
+}

@@ -1,0 +1,31 @@
+.field {
+  display: flex;
+  align-items: center;
+  padding-bottom: 24rpx;
+}
+.label {
+  width: 120rpx;
+  color: #666;
+}
+.input {
+  flex: 1;
+}
+.gen {
+  margin-top: 8rpx;
+}
+.qr {
+  width: 400rpx;
+  height: 400rpx;
+  margin: 0 auto;
+  display: block;
+}
+.tip {
+  margin-top: 24rpx;
+  color: #999;
+  font-size: 24rpx;
+  text-align: center;
+}
+.tip-card .tip {
+  text-align: left;
+  margin-top: 0;
+}

@@ -1,0 +1,36 @@
+<scroll-view class="tabs" scroll-x>
+  <view
+    wx:for="{{tabs}}"
+    wx:key="key"
+    class="tab {{activeTab === item.key ? 'active' : ''}}"
+    data-key="{{item.key}}"
+    bindtap="onTab"
+  >{{item.label}}</view>
+</scroll-view>
+
+<view wx:if="{{!list.length && !loading}}" class="empty">该状态暂无订单</view>
+
+<view class="list">
+  <view class="card order" wx:for="{{list}}" wx:key="_id">
+    <view class="row-between">
+      <text class="table">桌{{item.tableNo}}</text>
+      <text class="muted">{{item.timeText}}</text>
+    </view>
+    <view class="brief">{{item.itemsBrief}}</view>
+    <view wx:if="{{item.remark}}" class="remark">备注:{{item.remark}}</view>
+    <view wx:if="{{item.cancelReason}}" class="remark">取消原因:{{item.cancelReason}}</view>
+    <view class="row-between">
+      <text class="price">¥{{item.totalText}}</text>
+      <view class="actions">
+        <block wx:if="{{item.status === 'PAID'}}">
+          <view class="btn small danger" data-id="{{item._id}}" bindtap="onReject">拒单</view>
+          <view class="btn small primary {{actionLoading === item._id ? 'disabled' : ''}}" data-id="{{item._id}}" bindtap="onAccept">接单</view>
+        </block>
+        <view wx:elif="{{item.status === 'PREPARING'}}" class="btn small primary {{actionLoading === item._id ? 'disabled' : ''}}" data-id="{{item._id}}" bindtap="onFinish">出餐</view>
+        <view wx:elif="{{item.status === 'READY'}}" class="btn small primary {{actionLoading === item._id ? 'disabled' : ''}}" data-id="{{item._id}}" bindtap="onComplete">完成取餐</view>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{loading}}" class="muted loading">加载中...</view>
+  <view wx:if="{{!hasMore && list.length}}" class="muted loading">没有更多了</view>
+</view>

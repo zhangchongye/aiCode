@@ -1,0 +1,9 @@
+{
+  "name": "order",
+  "version": "1.0.0",
+  "description": "Zcy Food Order 订单云函数(下单/支付/状态流转)",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

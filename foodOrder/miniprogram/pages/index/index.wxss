@@ -1,0 +1,110 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  box-sizing: border-box;
+  padding-bottom: 120rpx;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 24rpx;
+  background: #fff;
+}
+.table-info {
+  font-size: 30rpx;
+  font-weight: bold;
+}
+.arrow {
+  color: #999;
+  margin-left: 8rpx;
+}
+.search-btn {
+  font-size: 26rpx;
+  color: #FF6B35;
+  border: 2rpx solid #FF6B35;
+  border-radius: 24rpx;
+  padding: 8rpx 24rpx;
+}
+
+.body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+.cats {
+  width: 180rpx;
+  background: #f0f0f0;
+  height: 100%;
+}
+.cat {
+  padding: 32rpx 16rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #666;
+}
+.cat.active {
+  background: #fff;
+  color: #FF6B35;
+  font-weight: bold;
+  border-left: 6rpx solid #FF6B35;
+}
+.prods {
+  flex: 1;
+  height: 100%;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+.cartbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 110rpx;
+  background: #333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30rpx;
+  z-index: 10;
+}
+.cart-left {
+  display: flex;
+  align-items: center;
+}
+.icon-wrap {
+  position: relative;
+}
+.icon {
+  font-size: 52rpx;
+  margin-right: 20rpx;
+}
+.badge {
+  position: absolute;
+  top: -10rpx;
+  left: 34rpx;
+  background: #FF6B35;
+  color: #fff;
+  font-size: 20rpx;
+  border-radius: 20rpx;
+  padding: 2rpx 10rpx;
+}
+.price {
+  color: #FF6B35;
+  font-weight: bold;
+  font-size: 32rpx;
+}
+.hint {
+  color: #999;
+  font-size: 26rpx;
+}
+.go {
+  background: #FF6B35;
+  color: #fff;
+  padding: 16rpx 48rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+}

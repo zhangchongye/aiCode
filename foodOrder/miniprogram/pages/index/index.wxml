@@ -1,0 +1,45 @@
+<view class="page">
+  <view class="topbar">
+    <view class="table-info" bindtap="chooseTable">
+      <text wx:if="{{tableNo}}">桌号:{{tableNo}}</text>
+      <text wx:else>选择桌号</text>
+      <text class="arrow">▾</text>
+    </view>
+    <view class="search-btn" bindtap="goSearch">🔍 搜索菜品</view>
+  </view>
+
+  <view class="body">
+    <scroll-view class="cats" scroll-y>
+      <view
+        wx:for="{{categories}}"
+        wx:key="_id"
+        class="cat {{item._id === activeCategoryId ? 'active' : ''}}"
+        data-id="{{item._id}}"
+        bindtap="selectCategory"
+      >{{item.name}}</view>
+      <view wx:if="{{!categories.length}}" class="empty">暂无分类</view>
+    </scroll-view>
+
+    <scroll-view class="prods" scroll-y>
+      <product-card
+        wx:for="{{products}}"
+        wx:key="_id"
+        product="{{item}}"
+        bind:add="onAddToCart"
+      />
+      <view wx:if="{{!products.length}}" class="empty">该分类暂无菜品</view>
+    </scroll-view>
+  </view>
+
+  <view class="cartbar" bindtap="goCart">
+    <view class="cart-left">
+      <view class="icon-wrap">
+        <text class="icon">🛒</text>
+        <view wx:if="{{cartCount}}" class="badge">{{cartCount}}</view>
+      </view>
+      <text wx:if="{{cartCount}}" class="price">¥{{cartTotalText}}</text>
+      <text wx:else class="hint">购物车是空的</text>
+    </view>
+    <text class="go">去结算</text>
+  </view>
+</view>

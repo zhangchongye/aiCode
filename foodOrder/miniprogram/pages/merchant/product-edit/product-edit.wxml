@@ -1,0 +1,33 @@
+<view class="card">
+  <view class="field">
+    <text class="label">名称</text>
+    <input class="input" value="{{name}}" placeholder="1-30 字" bindinput="onName" />
+  </view>
+  <view class="field">
+    <text class="label">价格(元)</text>
+    <input class="input" type="digit" value="{{priceYuan}}" placeholder="如 12.5" bindinput="onPrice" />
+  </view>
+  <view class="field">
+    <text class="label">分类</text>
+    <picker range="{{categories}}" range-key="name" value="{{categoryIndex}}" bindchange="onCategory">
+      <view class="picker">{{categories[categoryIndex].name || '请选择'}}</view>
+    </picker>
+  </view>
+  <view class="field">
+    <text class="label">描述</text>
+    <input class="input" value="{{description}}" placeholder="选填" bindinput="onDesc" />
+  </view>
+  <view class="field">
+    <text class="label">图片</text>
+    <view class="image-box" bindtap="onChooseImage">
+      <image wx:if="{{image}}" class="img" src="{{image}}" mode="aspectFill" />
+      <view wx:else class="img img-empty">+ 上传</view>
+    </view>
+  </view>
+  <view class="field">
+    <text class="label">上架</text>
+    <switch checked="{{status === 'on'}}" bindchange="onStatus" color="#FF6B35" />
+  </view>
+</view>
+
+<view class="btn-primary save {{saving ? 'disabled' : ''}}" bindtap="onSave">保存</view>

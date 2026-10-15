@@ -1,0 +1,27 @@
+<view class="tabs">
+  <view
+    wx:for="{{tabs}}"
+    wx:key="key"
+    class="tab {{activeTab === item.key ? 'active' : ''}}"
+    data-key="{{item.key}}"
+    bindtap="onTab"
+  >{{item.label}}</view>
+</view>
+
+<view wx:if="{{!list.length && !loading}}" class="empty">暂无订单</view>
+
+<view class="list">
+  <view class="card order" wx:for="{{list}}" wx:key="_id" data-id="{{item._id}}" bindtap="goDetail">
+    <view class="row-between">
+      <text class="order-no">{{item.orderNo}}</text>
+      <text class="status">{{item.statusText}}</text>
+    </view>
+    <view class="brief">{{item.itemsBrief}}</view>
+    <view class="row-between">
+      <text class="muted">{{item.timeText}} · 桌{{item.tableNo}}</text>
+      <text class="price">¥{{item.totalText}}</text>
+    </view>
+  </view>
+  <view wx:if="{{loading}}" class="muted loading">加载中...</view>
+  <view wx:if="{{!hasMore && list.length}}" class="muted loading">没有更多了</view>
+</view>

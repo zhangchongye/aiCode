@@ -1,0 +1,22 @@
+.searchbar {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  background: #fff;
+}
+.input {
+  flex: 1;
+  background: #f0f0f0;
+  border-radius: 40rpx;
+  padding: 14rpx 30rpx;
+  font-size: 28rpx;
+}
+.btn {
+  margin-left: 20rpx;
+  color: #FF6B35;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+.list {
+  padding: 20rpx;
+}

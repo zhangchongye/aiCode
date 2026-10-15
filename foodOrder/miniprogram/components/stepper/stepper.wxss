@@ -1,0 +1,24 @@
+.stepper {
+  display: flex;
+  align-items: center;
+}
+.btn {
+  width: 56rpx;
+  height: 56rpx;
+  line-height: 52rpx;
+  text-align: center;
+  border: 2rpx solid #FF6B35;
+  color: #FF6B35;
+  border-radius: 8rpx;
+  font-size: 36rpx;
+  box-sizing: border-box;
+}
+.btn.disabled {
+  border-color: #ddd;
+  color: #ccc;
+}
+.num {
+  min-width: 64rpx;
+  text-align: center;
+  font-size: 28rpx;
+}

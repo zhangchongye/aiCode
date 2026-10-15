@@ -1,0 +1,9 @@
+{
+  "name": "seed",
+  "version": "1.0.0",
+  "description": "Zcy Food Order 种子数据初始化",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

@@ -1,0 +1,61 @@
+.pcard {
+  display: flex;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+.img {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
+  background: #f0f0f0;
+  flex-shrink: 0;
+}
+.img-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bbb;
+  font-size: 22rpx;
+}
+.info {
+  flex: 1;
+  margin-left: 20rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.name {
+  font-size: 30rpx;
+  font-weight: bold;
+}
+.desc {
+  font-size: 24rpx;
+  color: #999;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.price {
+  color: #FF6B35;
+  font-weight: bold;
+  font-size: 30rpx;
+}
+.add {
+  width: 56rpx;
+  height: 56rpx;
+  line-height: 52rpx;
+  text-align: center;
+  background: #FF6B35;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 36rpx;
+}

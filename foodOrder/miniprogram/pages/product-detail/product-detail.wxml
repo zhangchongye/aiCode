@@ -1,0 +1,18 @@
+<view wx:if="{{product}}" class="page">
+  <image wx:if="{{product.image}}" class="hero" src="{{product.image}}" mode="aspectFill" />
+  <view wx:else class="hero hero-empty">暂无图片</view>
+
+  <view class="card">
+    <view class="row-between">
+      <view class="name">{{product.name}}</view>
+      <view class="price">¥{{priceText}}</view>
+    </view>
+    <view class="desc">{{product.description || '暂无描述'}}</view>
+  </view>
+
+  <view class="footer">
+    <stepper value="{{count}}" min="{{1}}" max="{{99}}" bind:change="onCountChange" />
+    <view class="btn-primary add-btn" bindtap="onAdd">加入购物车</view>
+  </view>
+</view>
+<view wx:else class="empty">加载中...</view>

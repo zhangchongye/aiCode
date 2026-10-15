@@ -1,0 +1,12 @@
+<view class="pcard" bindtap="onTap">
+  <image wx:if="{{product.image}}" class="img" src="{{product.image}}" mode="aspectFill" />
+  <view wx:else class="img img-empty">暂无图片</view>
+  <view class="info">
+    <view class="name">{{product.name}}</view>
+    <view class="desc">{{product.description}}</view>
+    <view class="bottom">
+      <view class="price">¥{{priceText}}</view>
+      <view class="add" catchtap="onAdd">+</view>
+    </view>
+  </view>
+</view>

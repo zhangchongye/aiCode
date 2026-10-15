@@ -1,0 +1,36 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/product-detail/product-detail",
+    "pages/search/search",
+    "pages/cart/cart",
+    "pages/order-confirm/order-confirm",
+    "pages/order-detail/order-detail",
+    "pages/orders/orders",
+    "pages/me/me",
+    "pages/merchant/home/home",
+    "pages/merchant/orders/orders",
+    "pages/merchant/products/products",
+    "pages/merchant/product-edit/product-edit",
+    "pages/merchant/categories/categories",
+    "pages/merchant/table-qr/table-qr"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#FF6B35",
+    "navigationBarTitleText": "Zcy Food Order",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F6F6F6"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#FF6B35",
+    "backgroundColor": "#FFFFFF",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "点餐" },
+      { "pagePath": "pages/orders/orders", "text": "订单" },
+      { "pagePath": "pages/me/me", "text": "我的" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

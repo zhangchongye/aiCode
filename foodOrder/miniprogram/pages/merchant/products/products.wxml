@@ -1,0 +1,19 @@
+<view wx:if="{{!groups.length && !loading}}" class="empty">暂无商品,点击右下角添加</view>
+
+<view class="list">
+  <view class="card group" wx:for="{{groups}}" wx:key="categoryId">
+    <view class="group-name">{{item.name}}</view>
+    <view class="product" wx:for="{{item.products}}" wx:for-item="p" wx:key="_id">
+      <view class="row-between">
+        <view class="pname" data-id="{{p._id}}" bindtap="goEdit">{{p.name}} <text class="muted">¥{{p.priceText}}</text></view>
+        <switch checked="{{p.status === 'on'}}" data-id="{{p._id}}" data-status="{{p.status}}" bindchange="onToggle" color="#FF6B35" />
+      </view>
+      <view class="row-between">
+        <text class="status {{p.status === 'on' ? '' : 'off'}}">{{p.statusText}}</text>
+        <text class="del" data-id="{{p._id}}" bindtap="onDelete">删除</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="fab" bindtap="goAdd">+</view>

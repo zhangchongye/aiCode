@@ -1,0 +1,22 @@
+<view class="card">
+  <view class="field">
+    <text class="label">桌号</text>
+    <input class="input" value="{{tableNo}}" placeholder="如 1 / A1" bindinput="onTableNo" />
+  </view>
+  <view class="btn-primary gen {{generating ? 'disabled' : ''}}" bindtap="onGenerate">生成桌码</view>
+</view>
+
+<view class="card" wx:if="{{fileID}}">
+  <image
+    class="qr"
+    src="{{fileID}}"
+    mode="aspectFit"
+    show-menu-by-longpress
+    bindlongpress="onLongPress"
+  />
+  <view class="tip">长按可保存到相册,打印后张贴到对应餐桌。</view>
+</view>
+
+<view class="card tip-card">
+  <view class="tip">说明:桌码需在小程序发布后扫码才能进入点餐页;开发期请在开发者工具中设置"编译模式 → 启动参数 scene=t%3D{{tableNo || '1'}}"模拟扫码。</view>
+</view>

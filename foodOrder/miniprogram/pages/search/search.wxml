@@ -1,0 +1,16 @@
+<view class="searchbar">
+  <input
+    class="input"
+    placeholder="输入菜品名称"
+    value="{{keyword}}"
+    confirm-type="search"
+    bindinput="onKeywordInput"
+    bindconfirm="doSearch"
+  />
+  <view class="btn" bindtap="doSearch">搜索</view>
+</view>
+
+<view wx:if="{{searched && !products.length}}" class="empty">没有找到相关菜品</view>
+<view class="list">
+  <product-card wx:for="{{products}}" wx:key="_id" product="{{item}}" bind:add="onAddToCart" />
+</view>

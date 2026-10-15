@@ -1,0 +1,33 @@
+<view wx:if="{{!items.length}}" class="empty">购物车是空的,去点餐吧~</view>
+
+<view wx:else class="page">
+  <view class="toolbar">
+    <text class="clear" bindtap="onClear">清空</text>
+  </view>
+  <view class="card item" wx:for="{{items}}" wx:key="productId">
+    <image wx:if="{{item.image}}" class="img" src="{{item.image}}" mode="aspectFill" />
+    <view wx:else class="img img-empty"></view>
+    <view class="info">
+      <view class="name">{{item.name}}</view>
+      <view class="row-between">
+        <view class="price">¥{{item.priceText}}</view>
+        <stepper
+          value="{{item.count}}"
+          min="{{1}}"
+          max="{{99}}"
+          data-product-id="{{item.productId}}"
+          bind:change="onCountChange"
+        />
+      </view>
+    </view>
+    <view class="del" data-product-id="{{item.productId}}" bindtap="onRemove">✕</view>
+  </view>
+
+  <view class="footer">
+    <view>
+      <view class="row">共 <text class="price">{{totalCount}}</text> 件</view>
+      <view class="price total">¥{{totalText}}</view>
+    </view>
+    <view class="btn-primary go-btn" bindtap="goConfirm">去下单</view>
+  </view>
+</view>
