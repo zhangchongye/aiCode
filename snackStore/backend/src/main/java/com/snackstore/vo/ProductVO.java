@@ -1,0 +1,17 @@
+package com.snackstore.vo;
+
+import lombok.Data;
+
+import java.math.BigDecimal;
+
+@Data
+public class ProductVO {
+    private Long id;
+    private Long categoryId;
+    private String name;
+    private String description;
+    private String image;
+    private BigDecimal price;
+    private Integer stock;
+    private Integer sales;
+}
