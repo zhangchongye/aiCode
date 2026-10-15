@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 
 @Data
 public class ProductDTO {
+    @NotNull(message = "分类不能为空")
     private Long categoryId;
 
     @NotBlank(message = "商品名称不能为空")

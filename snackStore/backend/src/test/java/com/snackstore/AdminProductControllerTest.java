@@ -1,7 +1,9 @@
 package com.snackstore;
 
 import com.snackstore.common.JwtUtil;
+import com.snackstore.entity.Category;
 import com.snackstore.entity.Product;
+import com.snackstore.mapper.CategoryMapper;
 import com.snackstore.mapper.ProductMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,6 +32,8 @@ class AdminProductControllerTest {
     private JwtUtil jwtUtil;
     @Autowired
     private ProductMapper productMapper;
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     private String adminAuth;
     private String userAuth;
@@ -83,5 +87,49 @@ class AdminProductControllerTest {
         mockMvc.perform(multipart("/api/admin/upload").file(file).header("Authorization", adminAuth))
                 .andExpect(jsonPath("$.code").value(0))
                 .andExpect(jsonPath("$.data").value(org.hamcrest.Matchers.startsWith("/uploads/")));
+    }
+
+    @Test
+    void updateStatus_emptyBody_rejected() throws Exception {
+        mockMvc.perform(put("/api/admin/products/1/status").header("Authorization", adminAuth)
+                        .contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(jsonPath("$.code").value(1))
+                .andExpect(jsonPath("$.message").value("状态不能为空"));
+    }
+
+    @Test
+    void updateStatus_invalidValue_rejected() throws Exception {
+        mockMvc.perform(put("/api/admin/products/1/status").header("Authorization", adminAuth)
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"status\":5}"))
+                .andExpect(jsonPath("$.code").value(1))
+                .andExpect(jsonPath("$.message").value("状态值非法"));
+    }
+
+    @Test
+    void createProduct_missingCategoryId_rejected() throws Exception {
+        mockMvc.perform(post("/api/admin/products").header("Authorization", adminAuth)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"name\":\"缺分类商品\",\"price\":1.0,\"stock\":1}"))
+                .andExpect(jsonPath("$.code").value(1))
+                .andExpect(jsonPath("$.message").value("分类不能为空"));
+    }
+
+    @Test
+    void deleteCategory_withProducts_rejected() throws Exception {
+        Category c = new Category();
+        c.setName("待删分类");
+        c.setSort(99);
+        c.setStatus(1);
+        categoryMapper.insert(c);
+        Product p = new Product();
+        p.setCategoryId(c.getId());
+        p.setName("分类下商品");
+        p.setPrice(new BigDecimal("1.0"));
+        p.setStock(1);
+        p.setStatus(1);
+        productMapper.insert(p);
+        mockMvc.perform(delete("/api/admin/categories/" + c.getId()).header("Authorization", adminAuth))
+                .andExpect(jsonPath("$.code").value(1))
+                .andExpect(jsonPath("$.message").value("该分类下还有商品，不能删除"));
     }
 }

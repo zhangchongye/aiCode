@@ -3,12 +3,11 @@ package com.snackstore.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.snackstore.common.Result;
 import com.snackstore.dto.ProductDTO;
+import com.snackstore.dto.ProductStatusDTO;
 import com.snackstore.entity.Product;
 import com.snackstore.service.AdminService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin/products")
@@ -40,8 +39,8 @@ public class AdminProductController {
     }
 
     @PutMapping("/{id}/status")
-    public Result<Void> updateStatus(@PathVariable Long id, @RequestBody Map<String, Integer> body) {
-        adminService.updateProductStatus(id, body.get("status"));
+    public Result<Void> updateStatus(@PathVariable Long id, @Valid @RequestBody ProductStatusDTO dto) {
+        adminService.updateProductStatus(id, dto.getStatus());
         return Result.ok(null);
     }
 
