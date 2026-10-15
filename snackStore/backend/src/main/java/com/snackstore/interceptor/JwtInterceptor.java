@@ -19,6 +19,10 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // CORS 预检请求直接放行
+        if ("OPTIONS".equals(request.getMethod())) {
+            return true;
+        }
         String path = request.getRequestURI();
         // 公开接口：认证 + 前台商品/分类浏览
         if (path.startsWith("/api/auth/")
@@ -46,6 +50,7 @@ public class JwtInterceptor implements HandlerInterceptor {
             response.setStatus(403);
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write("{\"code\":403,\"message\":\"无权限\"}");
+            UserContext.clear();
             return false;
         }
         return true;
