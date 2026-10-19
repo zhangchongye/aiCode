@@ -2,6 +2,7 @@ package com.snackstore.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.snackstore.common.BusinessException;
 import com.snackstore.dto.OrderCreateDTO;
 import com.snackstore.entity.*;
@@ -133,12 +134,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderVO> list(Long userId, Integer status) {
+    public Page<OrderVO> list(Long userId, Integer status, int page, int size) {
         LambdaQueryWrapper<Order> qw = new LambdaQueryWrapper<Order>()
                 .eq(Order::getUserId, userId).orderByDesc(Order::getId);
         if (status != null) qw.eq(Order::getStatus, status);
-        List<Order> orders = orderMapper.selectList(qw);
-        return orders.stream().map(o -> toVO(o, null)).toList();
+        Page<Order> result = orderMapper.selectPage(new Page<>(page, size), qw);
+        return (Page<OrderVO>) result.convert(o -> toVO(o, null));
     }
 
     @Override

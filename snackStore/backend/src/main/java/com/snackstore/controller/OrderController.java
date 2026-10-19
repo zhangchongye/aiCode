@@ -1,5 +1,6 @@
 package com.snackstore.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.snackstore.common.Result;
 import com.snackstore.common.UserContext;
 import com.snackstore.dto.OrderCreateDTO;
@@ -7,8 +8,6 @@ import com.snackstore.service.OrderService;
 import com.snackstore.vo.OrderVO;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -26,8 +25,10 @@ public class OrderController {
     }
 
     @GetMapping
-    public Result<List<OrderVO>> list(@RequestParam(required = false) Integer status) {
-        return Result.ok(orderService.list(UserContext.getUserId(), status));
+    public Result<Page<OrderVO>> list(@RequestParam(required = false) Integer status,
+                                      @RequestParam(defaultValue = "1") int page,
+                                      @RequestParam(defaultValue = "10") int size) {
+        return Result.ok(orderService.list(UserContext.getUserId(), status, page, size));
     }
 
     @GetMapping("/{id}")

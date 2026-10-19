@@ -1,9 +1,8 @@
 package com.snackstore.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.snackstore.dto.OrderCreateDTO;
 import com.snackstore.vo.OrderVO;
-
-import java.util.List;
 
 public interface OrderService {
 
@@ -13,7 +12,7 @@ public interface OrderService {
 
     void cancel(Long userId, Long id);
 
-    List<OrderVO> list(Long userId, Integer status);
+    Page<OrderVO> list(Long userId, Integer status, int page, int size);
 
     OrderVO detail(Long userId, Long id);
 }

@@ -114,6 +114,22 @@ class OrderControllerTest {
     }
 
     @Test
+    void listOrders_returnsPage() throws Exception {
+        Product p = makeProduct(10);
+        Address a = makeAddress();
+        addCart(p.getId(), 1);
+        mockMvc.perform(post("/api/orders").header("Authorization", auth)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"addressId\":" + a.getId() + "}"))
+                .andExpect(jsonPath("$.code").value(0));
+        mockMvc.perform(get("/api/orders?page=1&size=5").header("Authorization", auth))
+                .andExpect(jsonPath("$.code").value(0))
+                .andExpect(jsonPath("$.data.records").isArray())
+                .andExpect(jsonPath("$.data.records.length()").value(1))
+                .andExpect(jsonPath("$.data.total").value(1));
+    }
+
+    @Test
     void payOrder_thenCancel_restoresStock() throws Exception {
         Product p = makeProduct(10);
         Address a = makeAddress();

@@ -10,30 +10,42 @@
     </el-tabs>
 
     <el-empty v-if="orders.length === 0" description="暂无订单" />
-    <el-card v-for="order in orders" :key="order.id" class="order-card">
-      <div class="order-head">
-        <div class="order-meta">
-          <span class="order-no">订单号：{{ order.orderNo }}</span>
-          <span class="order-time">{{ order.createdAt }}</span>
+    <template v-else>
+      <el-card v-for="order in orders" :key="order.id" class="order-card">
+        <div class="order-head">
+          <div class="order-meta">
+            <span class="order-no">订单号：{{ order.orderNo }}</span>
+            <span class="order-time">{{ order.createdAt }}</span>
+          </div>
+          <el-tag :type="statusMap[order.status].type">{{ statusMap[order.status].text }}</el-tag>
         </div>
-        <el-tag :type="statusMap[order.status].type">{{ statusMap[order.status].text }}</el-tag>
+        <div class="order-body">
+          <div class="order-amount">
+            实付金额 <span class="total-price">¥{{ order.totalAmount }}</span>
+          </div>
+          <div class="order-actions">
+            <el-button size="small" @click="router.push(`/orders/${order.id}`)">查看详情</el-button>
+            <el-button v-if="order.status === 0" size="small" type="primary" @click="pay(order)">支付</el-button>
+            <el-button v-if="order.status === 0" size="small" @click="cancel(order)">取消订单</el-button>
+          </div>
+        </div>
+      </el-card>
+      <div v-if="total > query.size" class="pagination">
+        <el-pagination
+          background
+          layout="prev, pager, next, total"
+          :total="total"
+          :page-size="query.size"
+          :current-page="query.page"
+          @current-change="onPageChange"
+        />
       </div>
-      <div class="order-body">
-        <div class="order-amount">
-          实付金额 <span class="total-price">¥{{ order.totalAmount }}</span>
-        </div>
-        <div class="order-actions">
-          <el-button size="small" @click="router.push(`/orders/${order.id}`)">查看详情</el-button>
-          <el-button v-if="order.status === 0" size="small" type="primary" @click="pay(order)">支付</el-button>
-          <el-button v-if="order.status === 0" size="small" @click="cancel(order)">取消订单</el-button>
-        </div>
-      </div>
-    </el-card>
+    </template>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getOrdersApi, payOrderApi, cancelOrderApi } from '@/api/order'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -47,14 +59,28 @@ const statusMap = {
 }
 
 const orders = ref([])
+const total = ref(0)
 const activeTab = ref('all')
 const router = useRouter()
+const query = reactive({ page: 1, size: 10 })
 
 async function load() {
-  orders.value = await getOrdersApi({ status: activeTab.value === 'all' ? undefined : activeTab.value })
+  const data = await getOrdersApi({
+    page: query.page,
+    size: query.size,
+    status: activeTab.value === 'all' ? undefined : activeTab.value,
+  })
+  orders.value = data.records
+  total.value = data.total
 }
 
 function onTabChange() {
+  query.page = 1
+  load()
+}
+
+function onPageChange(page) {
+  query.page = page
   load()
 }
 
@@ -105,5 +131,11 @@ onMounted(load)
   color: #f56c6c;
   font-size: 18px;
   font-weight: 700;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 16px;
 }
 </style>
